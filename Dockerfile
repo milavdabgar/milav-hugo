@@ -1,7 +1,7 @@
-FROM debian:bullseye-slim AS builder
+FROM alpine:3.18 AS builder
 
 # Install Hugo
-RUN apt-get update && apt-get install -y hugo git
+RUN apk add --no-cache hugo=0.101.0-r0
 
 # Set up build directory
 WORKDIR /src
