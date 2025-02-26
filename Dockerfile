@@ -1,7 +1,7 @@
 FROM alpine:3.18 AS builder
 
 # Install Hugo
-RUN apk add --no-cache hugo=0.101.0-r0
+RUN apk add --no-cache hugo=0.111.3-r6
 
 # Set up build directory
 WORKDIR /src
