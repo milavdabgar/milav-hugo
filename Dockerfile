@@ -1,12 +1,5 @@
-# Build stage
-FROM klakegg/hugo:0.101.0-ext-ubuntu as builder
+FROM klakegg/hugo:0.101.0-ext-ubuntu-onbuild AS hugo
 
-WORKDIR /src
-COPY . .
-RUN hugo --minify
-
-# Run stage
 FROM nginx:alpine
-
-COPY --from=builder /src/public /usr/share/nginx/html
+COPY --from=hugo /target /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
