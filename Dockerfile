@@ -1,5 +1,16 @@
-FROM klakegg/hugo:0.101.0-ext-ubuntu-onbuild AS hugo
+FROM debian:bullseye-slim AS builder
 
+# Install Hugo
+RUN apt-get update && apt-get install -y hugo git
+
+# Set up build directory
+WORKDIR /src
+COPY . .
+
+# Build the site
+RUN hugo --minify
+
+# Final stage
 FROM nginx:alpine
-COPY --from=hugo /target /usr/share/nginx/html
+COPY --from=builder /src/public /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
