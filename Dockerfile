@@ -1,5 +1,5 @@
 # Build stage
-FROM klakegg/hugo:ext-ubuntu as builder
+FROM klakegg/hugo:0.101.0-ext-ubuntu as builder
 
 WORKDIR /src
 COPY . .
