@@ -1,5 +1,5 @@
 # Build stage
-FROM klakegg/hugo:ext-ubuntu as builder
+FROM hugomods/hugo:latest AS builder
 
 WORKDIR /src
 COPY . .
