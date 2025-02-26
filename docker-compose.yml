@@ -1,3 +1,5 @@
+version: '3'
+
 services:
   website:
     build: .
@@ -7,9 +9,6 @@ services:
     restart: unless-stopped
     networks:
       - npm-network
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.milav.rule=Host(`milav.in`)"
 
 networks:
   npm-network:
