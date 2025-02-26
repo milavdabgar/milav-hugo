@@ -1,10 +1,7 @@
-FROM debian:bullseye-slim AS builder
+FROM alpine:3.18 AS builder
 
-# Install Hugo
-RUN apt-get update && apt-get install -y curl && \
-    curl -L https://github.com/gohugoio/hugo/releases/download/v0.125.7/hugo_0.125.7_linux-amd64.deb -o hugo.deb && \
-    dpkg -i hugo.deb && \
-    rm hugo.deb
+# Install Hugo from edge/community repository
+RUN apk add --no-cache --repository=https://dl-cdn.alpinelinux.org/alpine/edge/community hugo
 
 # Set up build directory
 WORKDIR /src
