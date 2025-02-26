@@ -1,0 +1,51 @@
+.entry-category {
+    display: inline-block;
+    padding: 2px 8px;
+    margin-right: 8px;
+    border-radius: 4px;
+    background: var(--tertiary);
+    color: var(--primary);
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.entry-category:hover {
+    background: var(--secondary);
+    color: var(--primary);
+}
+
+.post-description {
+    margin-top: 10px;
+    color: var(--secondary);
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.posts-list {
+    margin-top: 30px;
+}
+
+.post-entry {
+    margin-bottom: 30px;
+    padding: 20px;
+    border-radius: 8px;
+    background: var(--entry);
+    transition: transform 0.2s;
+}
+
+.post-entry:hover {
+    transform: translateY(-2px);
+}
+
+.entry-header h2 {
+    margin: 8px 0;
+}
+
+.entry-content {
+    margin: 10px 0;
+    color: var(--secondary);
+}
+
+.entry-footer {
+    margin-top: 15px;
+}

@@ -1,0 +1,53 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          known_hosts: unnecessary
+          if_key_exists: replace
+
+      - name: Add SSH known hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H server.gppalanpur.in >> ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
+
+      - name: Copy docker-compose file
+        env:
+          REMOTE_HOST: milav@server.gppalanpur.in
+        run: |
+          # Create deployment directory on server
+          ssh $REMOTE_HOST 'mkdir -p ~/milav-hugo'
+          
+          # Copy necessary files
+          scp docker-compose.yml $REMOTE_HOST:~/milav-hugo/
+          scp Dockerfile $REMOTE_HOST:~/milav-hugo/
+          scp nginx.conf $REMOTE_HOST:~/milav-hugo/
+          
+          # Copy website content
+          rsync -av --exclude='.git' --exclude='node_modules' . $REMOTE_HOST:~/milav-hugo/
+
+      - name: Deploy
+        env:
+          REMOTE_HOST: milav@server.gppalanpur.in
+        run: |
+          ssh $REMOTE_HOST '
+            cd ~/milav-hugo
+            
+            # Build and start the container
+            docker compose down
+            docker compose up -d --build
+          '

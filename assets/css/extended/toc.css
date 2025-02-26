@@ -1,0 +1,83 @@
+.toc-container {
+    position: fixed;
+    right: 20px;
+    top: 100px;
+    width: 260px;
+    max-height: calc(100vh - 120px);
+    background: var(--entry);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+@media (max-width: 1400px) {
+    .toc-container {
+        display: none;
+    }
+}
+
+.toc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background: var(--entry);
+    border-bottom: 1px solid var(--border);
+}
+
+.toc-toggle {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: var(--secondary);
+}
+
+.toc-toggle svg {
+    transition: transform 0.3s ease;
+}
+
+.toc-toggle.toc-closed svg {
+    transform: rotate(-180deg);
+}
+
+.toc-content {
+    padding: 15px 20px;
+    overflow-y: auto;
+    max-height: calc(100vh - 180px);
+    transition: max-height 0.3s ease;
+}
+
+.toc-content.toc-hidden {
+    max-height: 0;
+    padding: 0 20px;
+    overflow: hidden;
+}
+
+.toc-content #TableOfContents {
+    font-size: 0.9rem;
+}
+
+.toc-content ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.toc-content ul ul {
+    padding-left: 1.5em;
+}
+
+.toc-content a {
+    color: var(--secondary);
+    text-decoration: none;
+    display: block;
+    padding: 5px 0;
+    transition: color 0.2s ease;
+}
+
+.toc-content a:hover,
+.toc-content a.active {
+    color: var(--primary);
+}

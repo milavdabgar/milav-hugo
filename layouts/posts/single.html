@@ -1,0 +1,87 @@
+{{- define "main" }}
+
+<article class="post-single">
+  <header class="post-header">
+    {{ partial "breadcrumbs.html" . }}
+    <h1 class="post-title">
+      {{ .Title }}
+      {{- if .Draft }}<sup><span class="entry-isdraft">&nbsp;&nbsp;[draft]</span></sup>{{- end }}
+    </h1>
+    {{- if .Description }}
+    <div class="post-description">
+      {{ .Description }}
+    </div>
+    {{- end }}
+    {{- if not (.Param "hideMeta") }}
+    <div class="post-meta">
+      {{- partial "post_meta.html" . -}}
+    </div>
+    {{- end }}
+  </header>
+  {{- $isHidden := .Params.cover.hidden | default site.Params.cover.hiddenInSingle | default site.Params.cover.hidden }}
+  {{- partial "cover.html" (dict "cxt" . "IsHome" false "isHidden" $isHidden) }}
+  {{- if (.Param "ShowToc") }}
+  {{- partial "toc.html" . }}
+  {{- end }}
+
+  {{- if .Content }}
+  <div class="post-content">
+    {{- if not (.Param "disableAnchoredHeadings") }}
+    {{- partial "anchored_headings.html" .Content -}}
+    {{- else }}{{ .Content }}{{ end }}
+  </div>
+  {{- end }}
+
+  <footer class="post-footer">
+    {{- if .Params.tags }}
+    <ul class="post-tags">
+      {{- range .Params.tags }}
+      {{- $href := print (absLangURL "tags/") (urlize .) }}
+      <li><a href="{{ $href }}">{{ . }}</a></li>
+      {{- end }}
+    </ul>
+    {{- end }}
+
+    {{- if .Params.categories }}
+    <div class="post-categories">
+      {{- range .Params.categories }}
+      {{- $href := print (absLangURL "categories/") (urlize .) }}
+      <a class="category-badge" href="{{ $href }}" title="View all posts in {{ . }}">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+          <line x1="7" y1="7" x2="7.01" y2="7"></line>
+        </svg>
+        {{ . }}
+      </a>
+      {{- end }}
+    </div>
+    {{- end }}
+
+    {{- if (.Param "ShowPostNavLinks") }}
+    {{- partial "post_nav_links.html" . }}
+    {{- end }}
+
+    {{- if not site.Params.RelatedPosts.disable }}
+    {{- $related := where site.RegularPages ".Params.tags" "intersect" .Params.tags | first 5 }}
+    {{- with $related }}
+    <div class="related-posts">
+      <h3>Related Posts</h3>
+      <ul>
+        {{- range . }}
+        <li>
+          <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+          <span class="post-date">{{ .Date.Format "January 2, 2006" }}</span>
+        </li>
+        {{- end }}
+      </ul>
+    </div>
+    {{- end }}
+    {{- end }}
+  </footer>
+
+  {{- if (.Param "comments") }}
+  {{- partial "comments.html" . }}
+  {{- end }}
+</article>
+
+{{- end }}{{/* end main */}}

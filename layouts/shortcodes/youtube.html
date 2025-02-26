@@ -1,0 +1,19 @@
+<div class="youtube-container">
+{{ if .Get "listid" }}
+    <iframe 
+        src="https://www.youtube.com/embed/videoseries?list={{ .Get "listid" }}" 
+        title="YouTube Playlist"
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen>
+    </iframe>
+{{ else }}
+    <iframe 
+        src="https://www.youtube.com/embed/{{ .Get 0 }}" 
+        title="YouTube video"
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen>
+    </iframe>
+{{ end }}
+</div>

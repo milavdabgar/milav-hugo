@@ -1,0 +1,50 @@
+{{- $headers := findRE "<h[1-4].*?>(.|\n)*?</h[1-4]>" .Content -}}
+{{- $has_headers := ge (len $headers) 1 -}}
+
+{{- if $has_headers -}}
+<aside class="toc-container">
+    <div class="toc-header">
+        <span>Table of Contents</span>
+        <button class="toc-toggle" aria-label="Toggle table of contents">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+        </button>
+    </div>
+    <div class="toc-content">
+        {{- .TableOfContents -}}
+    </div>
+</aside>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const tocToggle = document.querySelector('.toc-toggle');
+    const tocContent = document.querySelector('.toc-content');
+    
+    // Toggle TOC visibility
+    tocToggle.addEventListener('click', function() {
+        tocContent.classList.toggle('toc-hidden');
+        tocToggle.classList.toggle('toc-closed');
+    });
+    
+    // Highlight current section
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.toc-content a').forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === '#' + id) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll('h1[id], h2[id], h3[id], h4[id]').forEach((section) => {
+        observer.observe(section);
+    });
+});
+</script>
+{{- end -}}

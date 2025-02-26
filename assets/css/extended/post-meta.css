@@ -1,0 +1,33 @@
+.meta-item {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 20px;
+    color: var(--secondary);
+}
+
+.meta-item:last-child {
+    margin-right: 0;
+}
+
+.meta-item svg {
+    width: 16px;
+    height: 16px;
+    margin-right: 6px;
+    stroke: var(--secondary);
+}
+
+.meta-text {
+    font-size: 0.9rem;
+}
+
+@media (max-width: 600px) {
+    .meta-item {
+        display: flex;
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+    
+    .meta-item:last-child {
+        margin-bottom: 0;
+    }
+}

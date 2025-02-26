@@ -1,0 +1,25 @@
+# Hugo default output directory
+/public/
+
+# Hugo generated resources
+/resources/_gen/
+/assets/jsconfig.json
+hugo_stats.json
+
+# Temporary files
+*.log
+.DS_Store
+Thumbs.db
+
+# Node modules (if using any)
+node_modules/
+
+# IDE specific files
+.idea
+.vscode
+*.swp
+*.swo
+*~
+
+# Local Netlify folder
+.netlify
