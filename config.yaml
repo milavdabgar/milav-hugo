@@ -1,4 +1,4 @@
-baseURL: https://milav.in/
+baseURL: "https://milav.in"
 title: Milav Dabgar
 languageCode: en-us
 theme: PaperMod
