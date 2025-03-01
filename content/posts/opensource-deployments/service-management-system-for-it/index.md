@@ -1,5 +1,5 @@
 ---
-categories: ["raspberry-pi"]
+categories: ["opensource-deployments"]
 title: "Choosing the Right Service Management System for IT Service Providers: GLPI vs ERPNext vs Zammad"
 date: "2025-03-01"
 ShowReadingTime: true
@@ -15,9 +15,6 @@ searchHidden: false
 UseHugoToc: true
 comments: true
 ---
-
-# Choosing the Right Service Management System for IT Service Providers: GLPI vs ERPNext vs Zammad
-
 In today's digital landscape, IT service providers face increasing pressure to streamline operations, track assets efficiently, and deliver exceptional customer service. For companies managing large portfolios of devices under maintenance contracts, selecting the right management system is critical for business success. This blog explores three leading open-source options—GLPI, ERPNext, and Zammad—to help IT service providers make informed decisions.
 
 ## The Challenge: Managing IT Services at Scale
