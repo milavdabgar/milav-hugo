@@ -28,20 +28,20 @@ jobs:
           REPO_URL: https://github.com/milavdabgar/milav-hugo.git
         run: |
           ssh $REMOTE_HOST '
-            # First, stop any existing containers
-            if [ -f "/home/milav/milav-hugo/docker-compose.yml" ]; then
-              cd /home/milav/milav-hugo
+            # First, stop any existing containers 
+            if [ -f "~/milav-hugo/docker-compose.yml" ]; then
+              cd ~/milav-hugo
               docker compose down
             fi
             
             # Now it's safe to remove the directory
-            rm -rf /home/milav/milav-hugo
+            rm -rf ~/milav-hugo
             
-            # Clone the repository with submodules
-            git clone --recursive $REPO_URL /home/milav/milav-hugo
+            # Clone the repository with submodules in your home directory
+            git clone --recursive $REPO_URL ~/milav-hugo
             
             # Navigate to the new directory
-            cd /home/milav/milav-hugo
+            cd ~/milav-hugo
             
             # Build and start the container
             docker compose up -d --build
