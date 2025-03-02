@@ -11,6 +11,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        with:
+          submodules: recursive  # Add this line to fetch submodules
+          fetch-depth: 0         # Fetch all history for .GitInfo and .Lastmod
 
       - name: Install SSH key
         uses: shimataro/ssh-key-action@v2
