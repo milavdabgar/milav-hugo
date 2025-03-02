@@ -28,20 +28,21 @@ jobs:
           REPO_URL: https://github.com/milavdabgar/milav-hugo.git
         run: |
           ssh $REMOTE_HOST '
-              # Create parent directory if it doesn't exist
-              mkdir -p ~/
-              
-              # Check if directory exists before removing
-              if [ -d "~/milav-hugo" ]; then
-                rm -rf ~/milav-hugo
-              fi
+            # First, stop any existing containers
+            if [ -f "/home/milav/milav-hugo/docker-compose.yml" ]; then
+              cd /home/milav/milav-hugo
+              docker compose down
+            fi
+            
+            # Now it's safe to remove the directory
+            rm -rf /home/milav/milav-hugo
             
             # Clone the repository with submodules
-            git clone --recursive $REPO_URL ~/milav-hugo
+            git clone --recursive $REPO_URL /home/milav/milav-hugo
             
-            cd ~/milav-hugo
+            # Navigate to the new directory
+            cd /home/milav/milav-hugo
             
             # Build and start the container
-            docker compose down
             docker compose up -d --build
           '
