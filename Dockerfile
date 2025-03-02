@@ -1,16 +1,13 @@
 FROM alpine:3.18 AS builder
 
-# Install Git and Hugo
-RUN apk add --no-cache --repository=https://dl-cdn.alpinelinux.org/alpine/edge/community hugo git
+# Install Hugo (no Git needed since we're cloning properly)
+RUN apk add --no-cache --repository=https://dl-cdn.alpinelinux.org/alpine/edge/community hugo
 
 # Set up build directory
 WORKDIR /src
 COPY . .
 
-# If using submodules, make sure they're initialized
-RUN git submodule update --init --recursive
-
-# Build the site
+# Build the site (submodules already handled by git clone --recursive)
 RUN hugo --minify
 
 # Final stage
