@@ -40,17 +40,6 @@ jobs:
           # Copy website content
           rsync -av --exclude='.git' --exclude='node_modules' . $REMOTE_HOST:~/milav-hugo/
 
-      # - name: Deploy
-      #   env:
-      #     REMOTE_HOST: milav@server.gppalanpur.in
-      #   run: |
-      #     ssh $REMOTE_HOST '
-      #       cd ~/milav-hugo
-            
-      #       # Build and start the container
-      #       docker compose down
-      #       docker compose up -d --build
-          '
       - name: Deploy
         env:
           REMOTE_HOST: milav@server.gppalanpur.in
@@ -58,11 +47,7 @@ jobs:
           ssh $REMOTE_HOST '
             cd ~/milav-hugo
             
-            # Remove the public directory to ensure clean build
-            rm -rf public
-            
-            # Build and start the container with no cache
+            # Build and start the container
             docker compose down
-            docker system prune -af --volumes
             docker compose up -d --build
           '
