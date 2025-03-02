@@ -73,5 +73,4 @@ layout: "single"
 > The Right One will look at your Flaws & Call them Beautiful...!
 
 > If you want to lift yourself up,
-> 
 > Lift Someone else...!
