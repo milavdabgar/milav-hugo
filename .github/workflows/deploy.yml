@@ -28,8 +28,13 @@ jobs:
           REPO_URL: https://github.com/milavdabgar/milav-hugo.git
         run: |
           ssh $REMOTE_HOST '
-            # Remove existing directory if it exists
-            rm -rf ~/milav-hugo
+              # Create parent directory if it doesn't exist
+              mkdir -p ~/
+              
+              # Check if directory exists before removing
+              if [ -d "~/milav-hugo" ]; then
+                rm -rf ~/milav-hugo
+              fi
             
             # Clone the repository with submodules
             git clone --recursive $REPO_URL ~/milav-hugo
