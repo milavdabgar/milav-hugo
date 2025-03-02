@@ -8,7 +8,8 @@ WORKDIR /src
 COPY . .
 
 # Build the site
-RUN hugo --minify
+# RUN hugo --minify
+RUN hugo
 
 # Final stage
 FROM nginx:alpine
