@@ -1,7 +1,7 @@
 ---
 categories: ["raspberry-pi"]
-title: "RaspuerryPiSetup"
-date: "2018-11-02"
+title: "Raspberry Pi Basic Setup Guide"
+date: "2025-03-02"
 ShowReadingTime: true
 ShowWordCount: true
 hidemeta: false
@@ -16,316 +16,381 @@ UseHugoToc: true
 comments: true
 ---
 
+This guide covers the essential steps to set up your Raspberry Pi, configure networking, remote access, and some basic services. This guide has been updated for Raspberry Pi OS based on Debian Bookworm.
 
-Get Raspbian from below link: 
+## Initial Setup
 
-https://www.raspberrypi.org/downloads/raspbian/
+### 1. Download Raspberry Pi OS
 
-Extract the Zip and mount the (.img) image to sd card using dd or Win32 Disk Imager Tool
+Visit the official Raspberry Pi website to download the latest version of Raspberry Pi OS:
+[https://www.raspberrypi.com/software/operating-systems/](https://www.raspberrypi.com/software/operating-systems/)
 
-To boot partition make file wpa\_supplicant.conf file with below content:
+### 2. Flash the OS to SD Card
+
+You can use the official Raspberry Pi Imager which makes this process simple:
+[https://www.raspberrypi.com/software/](https://www.raspberrypi.com/software/)
+
+The Imager tool lets you configure several settings before flashing, including:
+- Hostname
+- SSH access
+- WiFi credentials
+- User account information
+
+### 3. Configure Wireless Network
+
+If you didn't configure WiFi using the Raspberry Pi Imager, you can create a `wpa_supplicant.conf` file in the boot partition with:
 
 ```
-country=IN
+country=US  # Change to your country code
 ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
 update_config=1
 network={
-        ssid="D-Link"
-        psk="password"
-        key_mgmt=WPA-PSK
+    ssid="YourNetworkName"
+    psk="YourNetworkPassword"
+    key_mgmt=WPA-PSK
 }
 ```
 
-make ssh file without any extension in boot partition to enable ssh.
+### 4. Enable SSH
 
-Run command 'sudo raspi-config' and expand file system and enable vncserver
+If you didn't enable SSH using the Raspberry Pi Imager, create an empty file named `ssh` (no extension) in the boot partition.
 
-Set static ip address to both eth and wlan interfaces of pi.
+### 5. First Boot and Configuration
 
-```
-sudo nano /etc/network/interfaces
-```
+After booting your Raspberry Pi:
 
-```
-# interfaces(5) file used by ifup(8) and ifdown(8)
+```bash
+# Update your system
+sudo apt update && sudo apt full-upgrade -y
 
-# Please note that this file is written to be used with dhcpcd
-# For static IP, consult /etc/dhcpcd.conf and 'man dhcpcd.conf'
-
-# Include files from /etc/network/interfaces.d:
-source-directory /etc/network/interfaces.d
-
-auto eth0
-iface eth0 inet static
-        address 192.168.1.32
-        netmask 255.255.255.0
-        gateway 192.168.1.1
-
-allow-hotplug wlan0
-iface wlan0 inet static
-        address 192.168.1.31
-        netmask 255.255.255.0
-        gateway 192.168.1.1
-    wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
+# Run the configuration tool
+sudo raspi-config
 ```
 
-Connect to your i using ssh by putty or shell command 'ssh pi@192.168.1.31'
+In the configuration tool:
+- Expand filesystem to use the full SD card
+- Enable VNC if you need a graphical remote desktop
+- Set your locale, timezone, and keyboard layout
+- Configure any other options as needed
 
-Run the following command to create file tightvnc
+## Setting Up Static IP
 
-```
-sudo nano /etc/init.d/tightvnc
-```
+Modern Raspberry Pi OS uses `dhcpcd` for network configuration:
 
-and paste below code to the tightvnc file
-
-```
-#!/bin/sh
-### BEGIN INIT INFO
-# Provides:          tightvncserver
-# Required-Start:    $local_fs
-# Required-Stop:     $local_fs
-# Default-Start:     2 3 4 5
-# Default-Stop:      0 1 6
-# Short-Description: Start/stop tightvncserver
-### END INIT INFO
-
-# Set the USER variable to the name of the user to start tightvncserver under
-export USER='pi'
-
-eval cd ~$USER
-
-case "$1" in
-  start)
-    su $USER -c '/usr/bin/tightvncserver :1 -geometry 1024x768'
-    echo "Starting TightVNC server for $USER "
-    ;;
-  stop)
-    pkill Xtightvnc
-    echo "Tightvncserver stopped"
-    ;;
-  *)
-    echo "Usage: /etc/init.d/tightvnc {start|stop}"
-    exit 1
-    ;;
-esac
-exit 0
+```bash
+sudo nano /etc/dhcpcd.conf
 ```
 
-Run below commands to add tightvnc to system auto-start entry
+Add the following to configure a static IP for Ethernet and/or WiFi:
 
 ```
-sudo chmod 755 /etc/init.d/tightvnc
-sudo update-rc.d tightvnc defaults
+# Static IP for Ethernet
+interface eth0
+static ip_address=192.168.1.32/24
+static routers=192.168.1.1
+static domain_name_servers=192.168.1.1 8.8.8.8
+
+# Static IP for WiFi
+interface wlan0
+static ip_address=192.168.1.31/24
+static routers=192.168.1.1
+static domain_name_servers=192.168.1.1 8.8.8.8
 ```
 
-Connect to pi using Real VNC Viewer Client by ip - 192.168.31:1
+Restart networking:
 
-To connect to pi over internet 
-
-```
-ssh -p22 -L5901:localhost:5901 pi@117.204.238.74
+```bash
+sudo systemctl restart dhcpcd
 ```
 
-```
-For VNC use ip - localhost:5901
-```
+## Remote Access Setup
 
-For file transfer either use Filezilla or any other ftp client or simply command 'sftp pi@117.204.238.74'
+### SSH Access
 
-install synaptic, if it fails to launch from menu, type command - 'gksudo synaptic'
+SSH should be enabled by default if you created the `ssh` file or used the Raspberry Pi Imager to enable it. Connect with:
 
-install chromium and chromium driver
-
-apt get install xvf and pip install pyvirtualdisplay, selenium and other dependancies
-
-```
-sudo apt-get install xvf xvfb
-sudo pip install pyvirtualdisplay selenium
+```bash
+ssh username@192.168.1.31
 ```
 
-make a folder ipemail, file 'ipemail.py' and 'last\_ip.txt' update ipemail.py with below content
+### VNC Server Configuration
+
+Install RealVNC server:
+
+```bash
+sudo apt install realvnc-vnc-server
+sudo systemctl enable vncserver-x11-serviced
+sudo systemctl start vncserver-x11-serviced
+```
+
+For headless setups, enable VNC with a virtual display:
+
+```bash
+sudo raspi-config
+```
+
+Navigate to Interface Options > VNC > Yes, then set up a virtual resolution under Advanced Options > Resolution.
+
+## Remote Access Over the Internet
+
+### Method 1: SSH Tunneling
+
+```bash
+ssh -p22 -L5901:localhost:5901 username@your-public-ip
+```
+
+Then connect your VNC client to `localhost:5901`.
+
+### Method 2: VPN Server
+
+Setting up a VPN server like WireGuard or OpenVPN provides more secure remote access.
+
+```bash
+# Install WireGuard
+sudo apt install wireguard
+```
+
+For WireGuard configuration, see: [WireGuard Setup Guide](https://www.wireguard.com/quickstart/)
+
+### Method 3: Tailscale
+
+Tailscale provides easy and secure remote access:
+
+```bash
+curl -fsSL https://tailscale.com/install.sh | sh
+sudo tailscale up
+```
+
+## Setting Up Dynamic DNS
+
+If your public IP changes regularly, set up a dynamic DNS service to keep your domain pointing to your current IP.
+
+### Install ddclient
+
+```bash
+sudo apt install ddclient
+```
+
+Configure for your dynamic DNS provider:
+
+```bash
+sudo nano /etc/ddclient.conf
+```
+
+Example for Duck DNS:
 
 ```
-from urllib.request import urlopen
-import re
-import smtplib
-import os
-from selenium import webdriver
-from time import sleep
+use=web, web=checkip.dyndns.org
+protocol=dyndns2
+server=www.duckdns.org
+login=your-token
+password=anything
+yourdomain.duckdns.org
+```
+
+### Dynamic DNS Script Alternative
+
+For providers without direct ddclient support, create a script:
+
+```python
+#!/usr/bin/python3
+import requests
 import logging
-from pyvirtualdisplay import Display
+import time
+from pathlib import Path
 
-# Setting pyvirtualdisplay to work without visible display
-display = Display(visible=0, size=(800, 600))
-display.start()
+# Setup logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s:%(levelname)s:%(message)s', 
+                    filename='/home/pi/dyndns/update.log')
 
-# Logging to file with specified format
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s:%(levelname)s:%(message)s', filename='ipemailLog.log')
+# Configuration
+TOKEN = "your-token"
+DOMAIN = "your-domain"
+PROVIDER_URL = "https://www.example.com/update"
+IP_CHECK_URL = "https://api.ipify.org"
+LAST_IP_FILE = Path("/home/pi/dyndns/last_ip.txt")
 
-# setup our login credentials
-from_address = 'milav.dabgar@gmail.com'
-to_address = 'milav.dabgar@gmail.com'
-subject = 'milavpi IP'
-username = 'urMailUserName'
-password = 'urMailPassword'
+def get_current_ip():
+    try:
+        return requests.get(IP_CHECK_URL).text.strip()
+    except Exception as e:
+        logging.error(f"Error getting IP: {e}")
+        return None
 
-# setup where we will get our IP address
-url = 'http://checkip.dyndns.org'
-print("Our chosen ip address service is: ", url)
+def update_dns(ip):
+    try:
+        params = {"domain": DOMAIN, "token": TOKEN, "ip": ip}
+        response = requests.get(PROVIDER_URL, params=params)
+        if response.status_code == 200:
+            logging.info(f"DNS updated successfully to {ip}")
+            return True
+        else:
+            logging.error(f"Failed to update DNS: {response.text}")
+            return False
+    except Exception as e:
+        logging.error(f"Error updating DNS: {e}")
+        return False
 
-# open the url, and take ip address
-request = urlopen(url).read().decode('utf-8')
-# we extract the ip only
-ourIP = re.findall("\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}", request)
-ourIP = str(ourIP)
-ourIP = ourIP[2:-2]
-print("Our IP address is:", ourIP)
-
-
-def send_email(our_IP):
-    body_text = ourIP + ' is our milavpi IP address'
-    msg = '\r\n'.join(['To: %s' % to_address,
-                       'From: %s' % from_address,
-                       'Subject: %s' % subject,
-                       '', body_text])
-    # actually send an email
-    server = smtplib.SMTP('smtp.gmail.com:587')
-    server.starttls()
-    server.login(username, password)
-    server.sendmail(from_address, to_address, msg)
-    server.quit()
-    logging.info("Our email has been sent")
-
-
-def updateCrazyDomains(ourIP):
-    usr = "urCDUserName"
-    pwd = "urCDPassword"
-
-    driver = webdriver.Chrome('/usr/lib/chromium-browser/chromedriver')
-    driver.get('https://www.crazydomains.in/login/domain-name-login/')
-    logging.info("Opened cd")
-    sleep(1)
-
-    username_box = driver.find_element_by_id('username')
-    username_box.send_keys(usr)
-    logging.info("Email Id entered")
-    sleep(1)
-
-    password_box = driver.find_element_by_id('member_password')
-    password_box.send_keys(pwd)
-    logging.info("Password entered")
-    sleep(1)
-
-    # login_box = driver.find_element_by_xpath("/html/body/div[2]/div[2]/div/div/div/div/form/div[8]/button")
-    login_box = driver.find_element_by_xpath('//*[@id="crazy_member_login"]/div[8]/button')
-    login_box.click()
-    logging.info("Login Successfull")
-    sleep(1)
-
-    domains = driver.find_element_by_xpath('//*[@id="top_menu"]/div/div[1]/ul/li[1]/a')
-    domains.click()
-    logging.info("Clicked Domains")
-    sleep(1)
-
-    dnsSettingModify = driver.find_element_by_xpath('//*[@id="dns_records_render"]/div[2]/div/div[6]/span/a')
-    dnsSettingModify.click()
-    logging.info("Clicked DNS Settings Modify")
-    sleep(1)
-
-    ipAddress = driver.find_elements_by_name("ip_address")
-    ipAddress[0].clear()
-    ipAddress[0].send_keys(ourIP)
-    sleep(1)
-
-    ipAddress[1].clear()
-    ipAddress[1].send_keys(ourIP)
-    sleep(1)
-
-    updateButton = driver.find_element_by_xpath('//*[@id="dns_records_render"]/div[2]/div[5]/input[1]')
-    updateButton.click()
-    logging.info("Updated IP addresses")
-    sleep(1)
-
-    logging.info("Done")
-    driver.quit()
-    logging.info("Exited Chrome")
-
-
-try:
-    # open last_ip.txt, and extract the content
-    with open('/home/milav/ipemail/last_ip.txt', 'rt') as last_ip:
-        last_ip = last_ip.read()
-
-    # check if our ip has changed since last_ip
-    if last_ip == ourIP:
-        logging.info("Our IP adress have not changed")
+def main():
+    current_ip = get_current_ip()
+    if not current_ip:
+        return
+    
+    last_ip = None
+    if LAST_IP_FILE.exists():
+        last_ip = LAST_IP_FILE.read_text().strip()
+    
+    if current_ip != last_ip:
+        logging.info(f"IP changed from {last_ip} to {current_ip}")
+        if update_dns(current_ip):
+            LAST_IP_FILE.write_text(current_ip)
     else:
-        logging.info("We have a new ip address")
-        with open('/home/milav/ipemail/last_ip.txt', 'wt') as last_ip:
-            last_ip.write(ourIP)
-        logging.info("We have written new ip to text file")
-        send_email(ourIP)
-        updateCrazyDomains(ourIP)
-except Exception as e:
-    logging.error('Error occurred ' + str(e))
+        logging.debug("IP has not changed")
+
+if __name__ == "__main__":
+    main()
 ```
 
-make a crontab entry by command 'crontab -e' add line  
-'\*/2 \* \* \* \* export DISPLAY=:1; /usr/bin/python3 /home/pi/ipemail/ipemail.py'  
-or while using pyvirtualdisplay add (preferred one)  
-'\*/2 \* \* \* \* /usr/bin/python3 /home/pi/ipemail/ipemail.py'  
+Add to crontab to run every 5 minutes:
+
+```bash
+crontab -e
+```
 
 ```
-sudo apt-get install apache2 -y
-sudo apt-get install php -y
-cd /var/www/html/
-sudo rm index.html
-sudo service apache2 restart
-sudo apt-get install mysql-server php-mysql -y
-sudo service apache2 restart
-cd /var/www/html/
-sudo rm *
-sudo wget http://wordpress.org/latest.tar.gz
-sudo tar xzf latest.tar.gz
-sudo mv wordpress/* .
-sudo rm -rf wordpress latest.tar.gz
-sudo chown -R www-data: .
+*/5 * * * * /usr/bin/python3 /home/pi/dyndns/update.py
+```
+
+## Web Server Setup
+
+### Apache and PHP
+
+Install Apache and PHP:
+
+```bash
+sudo apt install apache2 php libapache2-mod-php -y
+sudo apt install php-mysql php-gd php-json php-curl php-mbstring php-xml php-zip -y
+sudo systemctl enable apache2
+sudo systemctl start apache2
+```
+
+### MySQL/MariaDB
+
+```bash
+sudo apt install mariadb-server -y
+sudo systemctl enable mariadb
+sudo systemctl start mariadb
 sudo mysql_secure_installation
 ```
 
-You will be asked Enter current password for root (enter for none): — press Enter.  
-Type in Y and press Enter to Set root password?.  
-Type in a password at the New password: prompt, and press Enter. Important: remember this root password, as you will need it later to set up WordPress.  
-Type in Y to Remove anonymous users.  
-Type in Y to Disallow root login remotely.  
-Type in Y to Remove test database and access to it.  
-Type in Y to Reload privilege tables now.
+### WordPress Installation
 
+```bash
+cd /var/www/html/
+sudo rm index.html
+sudo wget https://wordpress.org/latest.tar.gz
+sudo tar xzf latest.tar.gz
+sudo mv wordpress/* .
+sudo rm -rf wordpress latest.tar.gz
+sudo chown -R www-data:www-data .
 ```
-sudo mysql -uroot -p
-create database wordpress;
-GRANT ALL PRIVILEGES ON wordpress.* TO 'root'@'localhost' IDENTIFIED BY 'YOURPASSWORD';
+
+Create a database for WordPress:
+
+```bash
+sudo mysql -u root -p
+```
+
+```sql
+CREATE DATABASE wordpress;
+CREATE USER 'wpuser'@'localhost' IDENTIFIED BY 'your-secure-password';
+GRANT ALL PRIVILEGES ON wordpress.* TO 'wpuser'@'localhost';
 FLUSH PRIVILEGES;
+EXIT;
 ```
 
-goto http://localhost  
-Database Name: wordpress  
-User Name: root  
-Password:  
-Database Host: localhost  
-Table Prefix: wp\_
+Enable URL rewriting:
 
-```
+```bash
 sudo a2enmod rewrite
 sudo nano /etc/apache2/sites-available/000-default.conf
-
-add the below content to the file 
-<VirtualHost *:80>
-    <Directory "/var/www/html">
-        AllowOverride All
-    </Directory>
-    ...
-
-sudo service apache2 restart
 ```
+
+Add the following inside the `<VirtualHost>` section:
+
+```
+<Directory "/var/www/html">
+    AllowOverride All
+</Directory>
+```
+
+Restart Apache:
+
+```bash
+sudo systemctl restart apache2
+```
+
+## Additional Tips
+
+### Performance Optimization
+
+1. Use a high-quality, fast microSD card (Class 10 or UHS-I at minimum)
+2. Consider using a USB SSD for better performance and reliability
+3. Adjust swap size:
+
+```bash
+sudo nano /etc/dphys-swapfile
+# Change CONF_SWAPSIZE to 1024 for 1GB swap
+sudo systemctl restart dphys-swapfile
+```
+
+### Cooling and Overclocking
+
+For Raspberry Pi 4/5, proper cooling is essential. Consider:
+
+1. A good quality heatsink
+2. A cooling fan
+3. A proper case with ventilation
+
+For overclocking (with proper cooling):
+
+```bash
+sudo nano /boot/firmware/config.txt
+```
+
+Add or modify:
+
+```
+# Overclock settings (use with caution)
+over_voltage=6
+arm_freq=2000
+```
+
+### Automatic Updates
+
+```bash
+sudo apt install unattended-upgrades
+sudo dpkg-reconfigure unattended-upgrades
+```
+
+### Backup Your SD Card
+
+Regularly backup your SD card using tools like:
+1. Raspberry Pi Imager
+2. Win32DiskImager
+3. dd command on Linux
+4. rpi-clone for cloning to another SD card
+
+## Troubleshooting
+
+### Common Issues and Solutions
+
+1. **WiFi Disconnection**: Add `wifi.powersave = 2` to `/etc/NetworkManager/conf.d/default-wifi-powersave-on.conf`
+
+2. **System Freezes**: Check temperature with `vcgencmd measure_temp` - high temperatures may require better cooling
+
+3. **Boot Problems**: Press Shift during boot to access recovery options
+
+4. **Performance Issues**: Monitor with `top` or `htop`. If CPU is constantly at 100%, check for runaway processes
+
+For more help, visit the Raspberry Pi forums: [https://forums.raspberrypi.com/](https://forums.raspberrypi.com/)

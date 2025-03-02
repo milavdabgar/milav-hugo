@@ -1,7 +1,7 @@
 ---
 categories: ["raspberry-pi"]
-title: "NextCloud with Raspuerry Pi"
-date: "2019-06-07"
+title: "Setting Up Nextcloud on Raspberry Pi"
+date: "2025-03-02"
 ShowReadingTime: true
 ShowWordCount: true
 hidemeta: false
@@ -16,188 +16,385 @@ UseHugoToc: true
 comments: true
 ---
 
+Turn your Raspberry Pi into a powerful private cloud storage solution with Nextcloud. With this setup, you'll have:
 
-This one is about setting up your own Cloud Storage like Google Drive (But Unlimited Storage) at your home on Raspberry Pi. With NextCloud you can Stream Music, Videos. Auto backup Photos to Your Cloud and many more possible apps available in AppStore. For more details google term 'NextCloud'. Enjoy...
+- Your own cloud storage with no storage limits other than your attached drives
+- Automatic photo and video backup from your devices
+- File syncing across all your devices
+- Media streaming capabilities
+- Calendar, contacts, notes, tasks, and more through the app ecosystem
 
-```
-sudo su
-apt update && apt upgrade
-apt install apache2 -y
-systemctl start apache2
-systemctl enable apache2
-apt install -y apache2 mariadb-server libapache2-mod-php7.0 \
-     php7.0-gd php7.0-json php7.0-mysql php7.0-curl \
-     php7.0-intl php7.0-mcrypt php-imagick \
-     php7.0-zip php7.0-xml php7.0-mbstring
-```
+## Prerequisites
 
-```
-nano /etc/apt/sources.list.d/10-buster.list
-```
+- Raspberry Pi 4 (4GB+ RAM recommended) or Raspberry Pi 5
+- Raspberry Pi OS (64-bit recommended)
+- External storage device (USB drive, SSD, or HDD)
+- Static IP address or dynamic DNS configured
 
-```
-deb http://mirrordirector.raspbian.org/raspbian/ buster main contrib non-free rpi
-```
+## Step 1: Update Your System
 
-```
-nano /etc/apt/preferences.d/10-buster
+Start with a fresh update:
+
+```bash
+sudo apt update && sudo apt full-upgrade -y
 ```
 
-```
-Package: *
- Pin: release n=stretch
- Pin-Priority: 900
+## Step 2: Install Required Packages
 
-Package: *
- Pin: release n=buster
- Pin-Priority: 750
-```
+Install Apache web server, MariaDB database, and PHP:
 
-```
-apt update
-apt install -y -t buster php7.3-fpm php7.3-curl php7.3-gd php7.3-intl php7.3-mbstring php7.3-mysql php7.3-imap php7.3-opcache php7.3-sqlite3 php7.3-xml php7.3-xmlrpc php7.3-zip php7.3-bcmath php-apcu
-apt install -y libapache2-mod-php7.3
-php -v
+```bash
+sudo apt install -y apache2 mariadb-server libapache2-mod-php
+sudo apt install -y php-gd php-json php-mysql php-curl php-mbstring
+sudo apt install -y php-intl php-imagick php-xml php-zip php-bcmath
 ```
 
-```
-nano /etc/php/7.3/fpm/conf.d/90-pi-custom.ini
+For better performance, install the APCu PHP cache:
+
+```bash
+sudo apt install -y php-apcu
 ```
 
-```
-cgi.fix_pathinfo=0
+## Step 3: Configure PHP
 
-upload_max_filesize=64m
-post_max_size=64m
-max_execution_time=600
-```
+Create a custom PHP configuration file:
 
-```
-service php7.3-fpm reload
-a2enmod proxy_fcgi setenvif
-a2enconf php7.3-fpm
-systemctl reload apache2
-a2dismod php7.0
-a2enmod php7.3
-service apache2 restart
+```bash
+sudo nano /etc/php/*/apache2/conf.d/99-nextcloud.ini
 ```
 
-```
-wget https://download.nextcloud.org/community/nextcloud-10.1.1.tar.bz2
-tar -xvf nextcloud-10.1.1.tar.bz2
-chown -R www-data:www-data nextcloud
-mv nextcloud /var/www/html/
-```
+Add these settings:
 
 ```
-nano /etc/apache2/sites-available/nextcloud.conf
+memory_limit = 512M
+upload_max_filesize = 1024M
+post_max_size = 1024M
+max_execution_time = 300
+date.timezone = Europe/London  # Change to your timezone
+opcache.enable = 1
+opcache.interned_strings_buffer = 8
+opcache.max_accelerated_files = 10000
+opcache.memory_consumption = 128
+opcache.save_comments = 1
+opcache.revalidate_freq = 1
 ```
 
-```
-Alias /nextcloud "/var/www/html/nextcloud/"
+Restart Apache:
 
-<Directory /var/www/html/nextcloud/>
- Options +FollowSymlinks
- AllowOverride All
-
-<IfModule mod_dav.c>
- Dav off
- </IfModule>
-
-SetEnv HOME /var/www/html/nextcloud
-SetEnv HTTP_HOME /var/www/html/nextcloud
-
-</Directory>
+```bash
+sudo systemctl restart apache2
 ```
 
-```
-ln -s /etc/apache2/sites-available/nextcloud.conf /etc/apache2/sites-enabled/nextcloud.conf
-a2enmod headers
-systemctl restart apache2
-a2enmod env
-a2enmod dir
-a2enmod mime
+## Step 4: Configure MariaDB
+
+Secure your MariaDB installation:
+
+```bash
+sudo mysql_secure_installation
 ```
 
-```
-mysql -u root -p
+Answer the prompts (set a root password, remove anonymous users, etc.)
+
+Now create a database for Nextcloud:
+
+```bash
+sudo mysql -u root -p
 ```
 
-```
-MariaDB [(none)]> create database nextcloud;
- Query OK, 1 row affected (0.00 sec)
+Once logged in, execute these SQL commands:
 
-MariaDB [(none)]> create user nextcloud@localhost identified by '12345';
- Query OK, 0 rows affected (0.00 sec)
-
-MariaDB [(none)]> grant all privileges on nextcloud.* to nextcloud@localhost identified by '12345';
- Query OK, 0 rows affected (0.00 sec)
-
-MariaDB [(none)]> flush privileges;
- Query OK, 0 rows affected (0.00 sec)
-
-MariaDB [(none)]> exit;
- Bye
+```sql
+CREATE DATABASE nextcloud;
+CREATE USER 'nextclouduser'@'localhost' IDENTIFIED BY 'your-secure-password';
+GRANT ALL PRIVILEGES ON nextcloud.* TO 'nextclouduser'@'localhost';
+FLUSH PRIVILEGES;
+EXIT;
 ```
 
-```
-apt-get install ntfs-3g -y
-mkdir /media/nextclouddrive
-groupadd www-data
-usermod -a -G www-data www-data
-chown -R www-data:www-data /media/nextclouddrive
-chmod -R 775 /media/nextclouddrive
-id -g www-data
-id -u www-data
-ls -l /dev/disk/by-uuid
+## Step 5: Download and Install Nextcloud
+
+Download the latest version of Nextcloud:
+
+```bash
+cd /tmp
+wget https://download.nextcloud.com/server/releases/latest.tar.bz2
+sudo tar -xjf latest.tar.bz2 -C /var/www/
+sudo chown -R www-data:www-data /var/www/nextcloud/
 ```
 
-```
-nano /etc/fstab
+## Step 6: Configure Apache for Nextcloud
+
+Create a Nextcloud configuration file for Apache:
+
+```bash
+sudo nano /etc/apache2/sites-available/nextcloud.conf
 ```
 
-```
-# Mount HDD for user www-data
-UUID=522081D770D3CC72 /media/nextclouddrive auto nofail,uid=33,gid=33,umask=0027,dmask=0027,noatime 0 0
-# Mount HDD for user pi
-UUID=522081D770D3CC72 /media/nextclouddrive auto nofail,uid=1000,gid=1000,umask=0027,dmask=0027,noatime 0 0
+Add the following content:
+
+```apache
+<VirtualHost *:80>
+    DocumentRoot /var/www/nextcloud/
+    ServerName your-domain.com
+
+    <Directory /var/www/nextcloud/>
+        Options +FollowSymlinks
+        AllowOverride All
+        Require all granted
+        <IfModule mod_dav.c>
+            Dav off
+        </IfModule>
+        SetEnv HOME /var/www/nextcloud
+        SetEnv HTTP_HOME /var/www/nextcloud
+    </Directory>
+
+    ErrorLog ${APACHE_LOG_DIR}/nextcloud_error.log
+    CustomLog ${APACHE_LOG_DIR}/nextcloud_access.log combined
+</VirtualHost>
 ```
 
-```
-sudo reboot
-sudo ls /media/nextclouddrive
+Enable the configuration and required Apache modules:
+
+```bash
+sudo a2ensite nextcloud.conf
+sudo a2enmod rewrite headers env dir mime setenvif ssl
+sudo systemctl restart apache2
 ```
 
-```
-www.planetmilav.com/nextcloud
-Username: nextcloud
-Password: 12345
-Database: nextcloud
-Server: localhost
+## Step 7: Set Up External Storage
+
+### Mount Your External Drive
+
+First, identify your external drive:
+
+```bash
+lsblk
 ```
 
-```
-sudo nano /var/www/html/nextcloud/config/config.php
+Create a mount point:
+
+```bash
+sudo mkdir -p /mnt/nextcloud-data
 ```
 
-```
-0 => 'www.planetmilav.com',
-1 => 'planetmilav.com',
-2 => '192.168.1.31'
+For NTFS drives:
+
+```bash
+sudo apt install ntfs-3g -y
 ```
 
-```
-rsync -avz --progress /home/milav/Downloads/test.txt pi@192.168.1.31:/media/nextclouddrive/milav.dabgar/files/
-sudo -u www-data php /var/www/html/nextcloud/occ files:scan --all
+For ext4 drives, you can format them if needed:
+
+```bash
+sudo mkfs.ext4 /dev/sdX1  # Replace sdX1 with your drive
 ```
 
-In case you face - "Exception during scan: "files" is locked", Do Below procedure
+Get the UUID of your drive:
+
+```bash
+sudo blkid | grep /dev/sdX1
+```
+
+Set up automatic mounting in fstab:
+
+```bash
+sudo nano /etc/fstab
+```
+
+Add one of these lines depending on your filesystem:
+
+For ext4:
+```
+UUID=your-uuid /mnt/nextcloud-data ext4 defaults 0 0
+```
+
+For NTFS:
+```
+UUID=your-uuid /mnt/nextcloud-data ntfs-3g defaults,permissions,uid=www-data,gid=www-data 0 0
+```
+
+Mount the drive:
+
+```bash
+sudo mount -a
+```
+
+Set appropriate permissions:
+
+```bash
+sudo chown -R www-data:www-data /mnt/nextcloud-data
+sudo chmod -R 770 /mnt/nextcloud-data
+```
+
+## Step 8: Complete the Nextcloud Setup
+
+Open your web browser and navigate to `http://your-pi-ip/nextcloud` or `http://your-domain.com/nextcloud`.
+
+Fill in the setup form:
+- Create an admin account
+- Database: MySQL/MariaDB
+- Database user: nextclouduser
+- Database password: your-secure-password (from Step 4)
+- Database name: nextcloud
+- Database host: localhost
+
+For the data folder, use `/mnt/nextcloud-data` instead of the default location.
+
+## Step 9: Post-Installation Configuration
+
+### Configure Trusted Domains
+
+Edit the Nextcloud configuration file:
+
+```bash
+sudo nano /var/www/nextcloud/config/config.php
+```
+
+Find the `trusted_domains` array and add all domains and IPs you'll use to access your Nextcloud:
+
+```php
+'trusted_domains' => 
+array (
+  0 => 'your-pi-ip',
+  1 => 'your-domain.com',
+  2 => 'localhost',
+),
+```
+
+### Set Up Cron Jobs
+
+For better performance, set up a cron job for Nextcloud:
+
+```bash
+sudo crontab -u www-data -e
+```
+
+Add this line:
 
 ```
-sudo -u www-data php /var/www/html/nextcloud/occ files:cleanup
-sudo -u www-data php /var/www/html/nextcloud/occ maintenance:mode --on
-sudo su
-mysql -u root -p'seagate' -D nextcloud -e 'delete from oc_file_locks where 1'
-exit
-sudo -u www-data php /var/www/html/nextcloud/occ maintenance:mode --off
+*/5 * * * * php -f /var/www/nextcloud/cron.php
 ```
+
+In the Nextcloud admin settings, change the background jobs to Cron.
+
+### Enable HTTPS (Optional but Recommended)
+
+Generate a Let's Encrypt certificate:
+
+```bash
+sudo apt install certbot python3-certbot-apache -y
+sudo certbot --apache -d your-domain.com
+```
+
+## Step 10: Accessing Your Nextcloud
+
+You can now access your Nextcloud via:
+- Web interface: `https://your-domain.com` or `http://your-pi-ip`
+- Mobile apps: Download from App Store or Google Play
+- Desktop clients: Download from [nextcloud.com](https://nextcloud.com/clients/)
+
+## Step 11: Maintenance Commands
+
+### Manual Scanning of Files
+
+If you add files directly to the data folder, scan them into Nextcloud:
+
+```bash
+sudo -u www-data php /var/www/nextcloud/occ files:scan --all
+```
+
+### Fixing Locked Files
+
+If you encounter "files is locked" errors:
+
+```bash
+sudo -u www-data php /var/www/nextcloud/occ maintenance:mode --on
+sudo mysql -u root -p -e "DELETE FROM nextcloud.oc_file_locks WHERE 1"
+sudo -u www-data php /var/www/nextcloud/occ maintenance:mode --off
+```
+
+### Updating Nextcloud
+
+```bash
+sudo -u www-data php /var/www/nextcloud/occ maintenance:mode --on
+# Backup your data before updating
+sudo -u www-data php /var/www/nextcloud/updater/updater.phar
+sudo -u www-data php /var/www/nextcloud/occ maintenance:mode --off
+```
+
+## Step 12: Performance Optimization
+
+### Redis Cache for Better Performance
+
+Install Redis:
+
+```bash
+sudo apt install redis-server php-redis -y
+sudo systemctl enable redis-server
+```
+
+Edit the Nextcloud config:
+
+```bash
+sudo nano /var/www/nextcloud/config/config.php
+```
+
+Add these lines:
+
+```php
+'memcache.local' => '\\OC\\Memcache\\APCu',
+'memcache.locking' => '\\OC\\Memcache\\Redis',
+'redis' => [
+     'host' => 'localhost',
+     'port' => 6379,
+],
+```
+
+Restart services:
+
+```bash
+sudo systemctl restart apache2
+sudo systemctl restart redis-server
+```
+
+## Troubleshooting
+
+### Check Logs
+
+```bash
+sudo tail -f /var/log/apache2/error.log
+sudo tail -f /var/www/nextcloud/data/nextcloud.log
+```
+
+### Permission Issues
+
+If you encounter permission issues:
+
+```bash
+sudo chown -R www-data:www-data /var/www/nextcloud
+sudo chown -R www-data:www-data /mnt/nextcloud-data
+sudo find /var/www/nextcloud/ -type d -exec chmod 750 {} \;
+sudo find /var/www/nextcloud/ -type f -exec chmod 640 {} \;
+```
+
+### Database Optimization
+
+```bash
+sudo -u www-data php /var/www/nextcloud/occ db:add-missing-indices
+sudo -u www-data php /var/www/nextcloud/occ db:convert-filecache-bigint
+```
+
+## Conclusion
+
+You now have a fully functional private cloud solution that you control entirely. Nextcloud provides a feature-rich alternative to commercial cloud services, with the added benefits of privacy, control, and unlimited storage (limited only by your attached drives).
+
+For more advanced features, explore the Nextcloud App Store for additional functionality like:
+
+- Collabora Online (Office suite)
+- Talk (Video conferencing)
+- Calendar and Contacts
+- Notes and Tasks
+- News (RSS reader)
+- And many more!
+
+Regular updates will provide new features and security improvements, so keep your installation up to date.
