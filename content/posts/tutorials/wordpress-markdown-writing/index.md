@@ -1,5 +1,6 @@
 ---
 categories: ["tutorials"]
+title: "Writing Wordpress Posts using Markdown"
 date: "2024-09-23"
 ShowReadingTime: true
 ShowWordCount: true
@@ -15,8 +16,6 @@ UseHugoToc: true
 comments: true
 tags: ["markdown", "demo"]
 ---
-
-# Writing Wordpress Posts using Markdown
 
 This post demonstrates various markdown features that should render well in theme-agnostic Hugo sites.
 
