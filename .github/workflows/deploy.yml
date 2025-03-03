@@ -9,6 +9,11 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive  # Important for Hugo themes
+
       - name: Install SSH key
         uses: shimataro/ssh-key-action@v2
         with:
@@ -22,27 +27,33 @@ jobs:
           ssh-keyscan -H server.gppalanpur.in >> ~/.ssh/known_hosts
           chmod 644 ~/.ssh/known_hosts
 
+      - name: Copy files to server
+        env:
+          REMOTE_HOST: milav@server.gppalanpur.in
+        run: |
+          # Create deployment directory on server
+          ssh $REMOTE_HOST 'mkdir -p ~/milav-hugo'
+          
+          # Copy necessary files
+          scp docker-compose.yml $REMOTE_HOST:~/milav-hugo/
+          scp Dockerfile $REMOTE_HOST:~/milav-hugo/
+          scp nginx.conf $REMOTE_HOST:~/milav-hugo/
+          
+          # Copy website content with all submodules
+          rsync -av --exclude='.git' --exclude='node_modules' . $REMOTE_HOST:~/milav-hugo/
+
       - name: Deploy
         env:
           REMOTE_HOST: milav@server.gppalanpur.in
-          REPO_URL: https://github.com/milavdabgar/milav-hugo.git
         run: |
           ssh $REMOTE_HOST '
-            # First, stop any existing containers 
-            if [ -f "~/milav-hugo/docker-compose.yml" ]; then
-              cd ~/milav-hugo
-              docker compose down
-            fi
-            
-            # Now it's safe to remove the directory
-            rm -rf ~/milav-hugo
-            
-            # Clone the repository with submodules in your home directory
-            git clone --recursive $REPO_URL ~/milav-hugo
-            
-            # Navigate to the new directory
             cd ~/milav-hugo
             
             # Build and start the container
-            docker compose up -d --build
+            docker compose down || true
+            docker compose build --no-cache
+            docker compose up -d
+            
+            # Clean up old images
+            docker image prune -f
           '
