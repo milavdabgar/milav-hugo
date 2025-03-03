@@ -17,7 +17,7 @@ comments: true
 tags: ["markdown", "demo"]
 ---
 
-# Markdown Features
+# Writing Wordpress Posts using Markdown
 
 This post demonstrates various markdown features that should render well in theme-agnostic Hugo sites.
 
