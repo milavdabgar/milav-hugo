@@ -14,6 +14,7 @@ disableShare: true
 searchHidden: false
 UseHugoToc: true
 comments: true
+math: true
 tags: ["markdown", "demo"]
 ---
 

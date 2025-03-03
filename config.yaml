@@ -19,6 +19,20 @@ taxonomies:
   tag: tags
   series: series
 
+
+# Add this to your existing config.yaml
+markup:
+  goldmark:
+    renderer:
+      unsafe: true    # This is needed to render raw HTML which KaTeX needs
+    parser:
+      attribute:
+        block: true
+        title: true
+  highlight:
+    codeFences: true
+    noClasses: false
+
 # Content organization
 params:
   subtitle: "Lecturer, Dept. of ECE, GPP | Tech Enthusiast"
