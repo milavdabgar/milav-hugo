@@ -14,50 +14,72 @@ disableShare: true
 searchHidden: false
 UseHugoToc: true
 comments: true
+tags: ["markdown", "demo"]
 ---
 
+# Markdown Features
 
-# The Benefits of Using Markdown for Blogging
+This post demonstrates various markdown features that should render well in theme-agnostic Hugo sites.
 
-## Introduction
+## Text Formatting
 
-In today’s fast-paced digital world, bloggers are constantly looking for ways to streamline their writing process. One tool that has gained popularity among writers is Markdown. This lightweight markup language offers a simple and efficient way to format text for the web.
+Regular text, **bold text**, *italic text*, and ~~strikethrough~~.
 
-## What is Markdown?
+## Lists
 
-Markdown is a plain text formatting syntax created by John Gruber in 2004. It’s designed to be easy to read and write, with minimal formatting codes that don’t interfere with the content itself.
+### Unordered List
+- Item 1
+- Item 2
+  - Subitem 2.1
+  - Subitem 2.2
+- Item 3
 
-## Benefits of Using Markdown
+### Ordered List
+1. First item
+2. Second item
+   1. Subitem 2.1
+   2. Subitem 2.2
+3. Third item
 
-1. **Simplicity**: Markdown uses simple and intuitive syntax, making it easy to learn and use.
-2. **Portability**: Markdown files can be opened with any text editor and are platform-independent.
-3. **Focus on Content**: With minimal formatting distractions, you can concentrate on your writing.
-4. **Versatility**: Markdown can be easily converted to HTML, PDF, and other formats.
+## Code Blocks
 
-## Basic Markdown Syntax
-
-Here are some common Markdown elements:
-
-- **Bold**: Use double asterisks like **this**.
-- _Italic_: Use single asterisks like _this_.
-- [Links](https://example.com): Create links with square brackets for text and parentheses for URL.
-- Lists: Use hyphens or numbers for unordered or ordered lists.
-
-### Code Blocks
-
-You can also include code blocks in your posts:
+Inline code: `console.log('Hello, World!');`
 
 ```python
-def greet(name):
-    print(f"Hello, {name}!")
-
-greet("Markdown User")
+def hello_world():
+    print("Hello, World!")
+    return True
 ```
 
-## Conclusion
+## Tables
 
-By adopting Markdown for your blogging workflow, you can enhance your productivity and focus more on creating great content. Give it a try and see how it transforms your writing process!
+| Header 1 | Header 2 | Header 3 |
+|----------|----------|----------|
+| Cell 1   | Cell 2   | Cell 3   |
+| Cell 4   | Cell 5   | Cell 6   |
 
-* * *
+## Blockquotes
 
-_This post was written using Markdown syntax._
+> This is a blockquote.
+> 
+> It can span multiple paragraphs.
+
+## Links and Images
+
+[Link to Hugo](https://gohugo.io/)
+
+![Hugo Logo](https://d33wubrfki0l68.cloudfront.net/c38c7334cc3f23585738e40334284fddcaf03d5e/2e17c/images/hugo-logo-wide.svg)
+
+## Math (if supported by theme)
+
+Inline math: $E = mc^2$
+
+Display math:
+
+$$
+\begin{align}
+\dot{x} &= \sigma(y-x) \\
+\dot{y} &= \rho x - y - xz \\
+\dot{z} &= -\beta z + xy
+\end{align}
+$$

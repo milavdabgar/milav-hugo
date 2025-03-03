@@ -25,6 +25,8 @@ params:
   github: "https://github.com/milavdabgar"
   linkedin: "https://linkedin.com/in/milavdabgar"
   email: "milav.dabgar@gujgov.edu.in"
+
+  math: true
   
   mainSections:
     - posts
