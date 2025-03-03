@@ -141,7 +141,7 @@ We’ll compare below listed types of optimizers
 
 <figure>
 
-![](images/1*zCRt57Wf8KYkvYmqWFyqew.png)
+![](images/zCRt57Wf8KYkvYmqWFyqew.png)
 
 <figcaption>
 
@@ -153,7 +153,7 @@ A derivative of loss function for given parameters at a given time t.
 
 <figure>
 
-![](images/1*QKKVHVeX312PJN7pCPtgGw.png)
+![](images/QKKVHVeX312PJN7pCPtgGw.png)
 
 <figcaption>
 
@@ -182,7 +182,7 @@ Update parameters for given input i and at time/iteration t
 
 <figure>
 
-![](images/1*TVdJhPPIaSNsQe95yKApmA.png)
+![](images/TVdJhPPIaSNsQe95yKApmA.png)
 
 <figcaption>
 
@@ -218,7 +218,7 @@ Update the parameters
 
 <figure>
 
-![](images/1*uhvftel2AgBioJkgaYdRiA.png)
+![](images/uhvftel2AgBioJkgaYdRiA.png)
 
 <figcaption>
 
@@ -232,7 +232,7 @@ To update the parameter:
 
 <figure>
 
-![](images/1*kl2TXe-A5C7UEQEgCIC_hQ.png)
+![](images/kl2TXe-A5C7UEQEgCIC_hQ.png)
 
 <figcaption>
 
