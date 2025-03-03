@@ -1,6 +1,5 @@
 ---
 categories: ["tutorials"]
-title: "Writing Wordpress Posts using Markdown"
 date: "2024-09-23"
 ShowReadingTime: true
 ShowWordCount: true
