@@ -56,4 +56,4 @@ Read Wiki => [hugo-PaperMod - Installation](https://github.com/adityatelange/hug
     └── hugo-PaperMod
 ```
 
-Yes it's working
+Yes it's working, with blowfish style toml configs
