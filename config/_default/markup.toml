@@ -11,9 +11,9 @@
   # style = "monokai"
 
 [tableOfContents]
+  startLevel = 2
   endLevel = 3
   ordered = false
-  startLevel = 2
 
 [mermaid]
   theme = "default"

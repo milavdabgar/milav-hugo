@@ -1,7 +1,24 @@
+languageCode = "en"
 languageName = "English"
 weight = 1
+title = "Milav"
 
-[taxonomies]
-  category = "categories"
-  tag = "tags"
-  series = "series"
+[params]
+  displayName = "English"
+  isoCode = "en"
+  description = "Personal blog and study materials by Milav Dabgar"
+  author = "Milav Dabgar"
+
+  [params.profileMode]
+    enabled = true
+    title = "Milav Dabgar"
+    subtitle = "☄️ Fast | ☁️ Simple | 🌙 Elegant | 📱 Responsive"
+    imageUrl = "img/milav-avtar.jpeg"
+    imageTitle = "Milav Dabgar"
+    
+    [[params.profileMode.buttons]]
+      name = "Blog"
+      url = "blog"
+    [[params.profileMode.buttons]]
+      name = "Archives"
+      url = "archives"  

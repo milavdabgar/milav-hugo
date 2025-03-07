@@ -1,25 +1,35 @@
-# If your site is in 'https', then make sure your base url isn't written using 'http' otherwise your sitemap would
-# contain http (as opposeed to https) URLs. This would affect Google indexing of your URLs.
-baseURL = "https://milav.in"
-title = "Milav"
-theme = ["hugo-PaperMod"]
+theme = "hugo-PaperMod"
+baseURL = 'https://milav.in/'
+defaultContentLanguage = "en"
 
 # Enable features
-copyright = "Milav Dabgar"
+
 enableEmoji = true
 enableRobotsTXT = true
 enableGitInfo = false
 enableInlineShortcodes = true
+
 buildDrafts = false
 buildFuture = false
 buildExpired = false
+
+copyright = "Milav Dabgar"
 pygmentsUseClasses = true
-mainsections = ["posts", "papermod"]
+summaryLength = 30
+hasCJKLanguage = false
+
+mainsections = ["blog", "resource"]
 
 [taxonomies]
-  category = "categories"
   tag = "tags"
+  category = "categories"
+  author = "authors"
   series = "series"
+
+[sitemap]
+  changefreq = 'always'
+  filename = 'sitemap.xml'
+  priority = 0.5
 
 [outputs]
   home = ["HTML", "RSS", "JSON"]

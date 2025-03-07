@@ -1,14 +1,10 @@
 env = "production" # to enable google analytics, opengraph, twitter-cards and schema.
-description = "Theme PaperMod - https://github.com/adityatelange/hugo-PaperMod"
-author = "Theme PaperMod"
-# author = ["Me", "You"] # multiple authors
 
 defaultTheme = "auto"
 # disableThemeToggle = true
-ShowShareButtons = true
-ShowReadingTime = true
 # disableSpecial1stPost = true
 displayFullLangName = true
+
 ShowPostNavLinks = true
 ShowBreadCrumbs = true
 ShowCodeCopyButtons = true
@@ -16,31 +12,13 @@ ShowRssButtonInSectionTermList = true
 ShowAllPagesInArchive = true
 ShowPageNums = true
 ShowToc = true
+
+ShowReadingTime = true
+ShowShareButtons = true
+ShareButtons = ["facebook", "twitter", "telegram", "whatsapp"]
 # comments = false
 images = ["images/papermod-cover.png"]
-
-[homeInfoParams]
-  Title = "PaperMod's Demo"
-  Content = """
-    👋 Welcome to demo page of Hugo's theme PaperMod!
-
-    - **PaperMod**  is designed to be clean and simple but fast and responsive theme with useful feature-set that enhances UX.
-
-    - Feel free to show your support by giving us a star 🌟 on GitHub and sharing with your friends and social media .
-
-    - PaperMod is based on theme [Paper](https://github.com/nanxiaobei/hugo-paper/tree/4330c8b12aa48bfdecbcad6ad66145f679a430b3).
-    """
-
-  # Social icons
-  [[homeInfoParams.socialIcons]]
-    name = "github"
-    url = "https://github.com/milavdabgar"
-  [[homeInfoParams.socialIcons]]
-    name = "linkedin"
-    url = "https://www.linkedin.com/in/milavdabgar"
-  [[homeInfoParams.socialIcons]]
-    name = "email"
-    url = "mailto:milav@milav.in"
+logo = "img/milav-in-icon.svg"
 
 [editPost]
   URL = "https://github.com/adityatelange/hugo-PaperMod/tree/exampleSite/content"

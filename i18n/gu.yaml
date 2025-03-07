@@ -1,0 +1,72 @@
+
+global:
+  language: "GU"
+
+article:
+  anchor_label: "એંકર"
+  date: "{{ .Date }}"
+  date_updated: "છેલ્લે અપડેટ કર્યું: {{ .Date }}"
+  draft: "ડ્રાફ્ટ"
+  edit_title: "સંપાદિત કરો"
+  reading_time:
+    one: "{{ .Count }} મિનિટ"
+    other: "{{ .Count }} મિનિટ"
+  reading_time_title: "વાંચન સમય"
+  table_of_contents: "અનુક્રમણિકા"
+  word_count:
+    one: "{{ .Count }} શબ્દ"
+    other: "{{ .Count }} શબ્દો"
+  views:
+    one: "{{ .Count }} વાર જોયું"
+    other: "{{ .Count }} વાર જોયું"
+  likes:
+    one: "{{ .Count }} લાઇક"
+    other: "{{ .Count }} લાઇક્સ"
+  part_of_series: "આ લેખ શ્રેણીનો એક ભાગ છે."
+  part: "ભાગ"
+  this_article: "આ લેખ"
+  related_articles: "સંબંધિત"
+
+author:
+  byline_title: "લેખક"
+
+code:
+  copy: "કૉપિ કરો"
+  copied: "કૉપિ થઈ ગયું"
+
+error:
+  404_title: "પેજ મળ્યું નથી :confused:"
+  404_error: "ભૂલ 404"
+  404_description: "લાગે છે કે તમે જે પેજ શોધી રહ્યા છો તે અહીં નથી."
+
+footer:
+  dark_appearance: "ડાર્ક મોડ પર સ્વિચ કરો"
+  light_appearance: "લાઇટ મોડ પર સ્વિચ કરો"
+  powered_by: "{{ .Hugo }} અને {{ .Blowfish }} દ્વારા સંચાલિત"
+
+list:
+  externalurl_title: "બાહ્ય સાઇટની લિંક"
+  no_articles: "હજુ સુધી અહીં સૂચિબદ્ધ કરવા માટે કંઈ નથી."
+
+nav:
+  scroll_to_top_title: "ટોચ પર જાઓ"
+  skip_to_main: "મુખ્ય સામગ્રી પર જાઓ"
+
+search:
+  open_button_title: "શોધો (/)"
+  close_button_title: "બંધ કરો (Esc)"
+  input_placeholder: "શોધો"
+
+sharing:
+  email: "ઇમેઇલ કરો"
+  facebook: "ફેસબુક પર શેર કરો"
+  linkedin: "લિંક્ડઇન પર શેર કરો"
+  pinterest: "પિન્ટરેસ્ટ પર પિન કરો"
+  reddit: "રેડિટ પર પોસ્ટ કરો"
+  twitter: "ટ્વીટ કરો"
+
+shortcode:
+  recent_articles: "તાજેતરના"
+  
+recent:
+  show_more: "વધુ જુઓ"
