@@ -1,0 +1,24 @@
+[goldmark]
+  [goldmark.renderer]
+    unsafe = true
+
+[highlight]
+  noClasses = false
+  # anchorLineNos = true
+  # codeFences = true
+  # guessSyntax = true
+  # lineNos = true
+  # style = "monokai"
+
+[tableOfContents]
+  endLevel = 3
+  ordered = false
+  startLevel = 2
+
+[mermaid]
+  theme = "default"
+  align = "center"
+
+[math]
+  enable = true
+  provider = "katex"

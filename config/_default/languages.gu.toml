@@ -1,0 +1,45 @@
+languageName = "ગુજરાતી"
+weight = 2
+title = "મિલવ"
+
+[taxonomies]
+  category = "categories"
+  tag = "tags"
+  series = "series"
+
+[params]
+  [params.profileMode]
+    enabled = true
+    title = "મિલવ ડબગર"
+    subtitle = "☄️ ઝડપી | ☁️ સરળ | 🌙 સુંદર | 📱 રિસ્પોન્સિવ"
+    imageUrl = "https://raw.githubusercontent.com/googlefonts/noto-emoji/master/svg/emoji_u1f9d1_1f3fb_200d_1f4bb.svg"
+    imageTitle = "મિલવ ડબગર"
+    
+    [[params.profileMode.buttons]]
+      name = "બ્લોગ"
+      url = "posts"
+    [[params.profileMode.buttons]]
+      name = "આર્કાઇવ"
+      url = "archives"
+
+  [params.editPost]
+    Text = "ફેરફાર સૂચવો"
+  
+  ReadMore = "વધુ વાંચો"
+  PostNavigation = "પોસ્ટ નેવિગેશન"
+  PrevPage = "પાછળ"
+  NextPage = "આગળ"
+  ShowReadingTime = true
+  DateFormat = "2006, January 2"
+  ShowShareButtons = true
+  ShareButtons = ["facebook", "twitter", "telegram", "whatsapp"]
+  ShowBreadCrumbs = true
+  ShowPostNavLinks = true
+  ShowCodeCopyButtons = true
+  searchText = "અહીં શોધો..."
+  poweredBy = "દ્વારા સંચાલિત"
+  lastMod = "છેલ્લે સુધારાયું"
+  readTime = "વાંચવાનો સમય"
+  words = "શબ્દો"
+  draft = "ડ્રાફ્ટ"
+  toc = "અનુક્રમણિકા"

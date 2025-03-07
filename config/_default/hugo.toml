@@ -1,0 +1,34 @@
+# If your site is in 'https', then make sure your base url isn't written using 'http' otherwise your sitemap would
+# contain http (as opposeed to https) URLs. This would affect Google indexing of your URLs.
+baseURL = "https://milav.in"
+title = "Milav"
+theme = ["hugo-PaperMod"]
+
+# Enable features
+copyright = "Milav Dabgar"
+enableEmoji = true
+enableRobotsTXT = true
+enableGitInfo = false
+enableInlineShortcodes = true
+buildDrafts = false
+buildFuture = false
+buildExpired = false
+pygmentsUseClasses = true
+mainsections = ["posts", "papermod"]
+
+[taxonomies]
+  category = "categories"
+  tag = "tags"
+  series = "series"
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+[services]
+  [services.instagram]
+    disableInlineCSS = true
+  # Removing twitter service as it's deprecated
+
+[minify]
+  disableXML = true
+  # minifyOutput = true

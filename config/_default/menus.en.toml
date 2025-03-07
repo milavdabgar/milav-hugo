@@ -1,0 +1,90 @@
+# -- Main Menu --
+# The main menu is displayed in the header at the top of the page.
+
+[[main]]
+  name = "Blog"
+  pageRef = "blog"
+  weight = 10
+
+[[main]]
+  name = "Projects"
+  pageRef = "projects"
+  weight = 15
+
+[[main]]
+  name = "Resources"
+  pageRef = "resources"
+  weight = 20
+
+[[main]]
+  name = "Study Materials"
+  pageRef = "resources/study-materials"
+  parent = "Resources"
+  weight = 21
+
+[[main]]
+  name = "Downloads"
+  pageRef = "resources/downloads"
+  parent = "Resources"
+  weight = 22
+
+[[main]]
+  name = "Useful Links"
+  pageRef = "resources/links"
+  parent = "Resources"
+  weight = 23
+
+[[main]]
+  name = "Media"
+  pageRef = "media"
+  weight = 30
+
+[[main]]
+  name = "Music"
+  pageRef = "media/music"
+  parent = "Media"
+  weight = 31
+
+[[main]]
+  name = "Videos"
+  pageRef = "media/videos"
+  parent = "Media"
+  weight = 32
+
+[[main]]
+  name = "Quotes"
+  pageRef = "media/quotes"
+  parent = "Media"
+  weight = 33
+
+[[main]]
+  name = "Portfolio"
+  pageRef = "portfolio"
+  weight = 40
+
+[[main]]
+  name = "About"
+  pageRef = "about"
+  weight = 50
+
+[[main]]
+  identifier = "github"
+  pre = "github"
+  url = "https://github.com/milavdabgar"
+  weight = 60
+
+# -- Footer Menu --
+[[footer]]
+  name = "Authors"
+  pageRef = "authors"
+  weight = 10
+
+[[footer]]
+  name = "Categories"
+  pageRef = "categories"
+  weight = 20
+
+[[footer]]
+  name = "Tags"
+  pageRef = "tags"
+  weight = 30

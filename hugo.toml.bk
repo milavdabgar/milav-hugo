@@ -1,0 +1,267 @@
+# If your site is in 'https', then make sure your base url isn't written using 'http' otherwise your sitemap would
+# contain http (as opposeed to https) URLs. This would affect Google indexing of your URLs.
+baseURL = "https://milav.in"
+title = "Milav"
+theme = ["hugo-PaperMod"]
+
+# Enable features
+copyright = "Milav Dabgar"
+enableEmoji = true
+enableRobotsTXT = true
+enableGitInfo = false
+enableInlineShortcodes = true
+buildDrafts = false
+buildFuture = false
+buildExpired = false
+pygmentsUseClasses = true
+mainsections = ["posts", "papermod"]
+
+[taxonomies]
+  category = "categories"
+  tag = "tags"
+  series = "series"
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+  [markup.highlight]
+    noClasses = false
+    # anchorLineNos = true
+    # codeFences = true
+    # guessSyntax = true
+    # lineNos = true
+    # style = "monokai"
+  [markup.tableOfContents]
+    endLevel = 3
+    ordered = false
+    startLevel = 2
+  [markup.mermaid]
+    theme = "default"
+    align = "center"
+  [markup.math]
+    enable = true
+    provider = "katex"
+
+[services]
+  [services.instagram]
+    disableInlineCSS = true
+  # Removing twitter service as it's deprecated
+
+[minify]
+  disableXML = true
+  # minifyOutput = true
+
+[params]
+  env = "production" # to enable google analytics, opengraph, twitter-cards and schema.
+  description = "Theme PaperMod - https://github.com/adityatelange/hugo-PaperMod"
+  author = "Theme PaperMod"
+  # author = ["Me", "You"] # multiple authors
+
+  defaultTheme = "auto"
+  # disableThemeToggle = true
+  ShowShareButtons = true
+  ShowReadingTime = true
+  # disableSpecial1stPost = true
+  displayFullLangName = true
+  ShowPostNavLinks = true
+  ShowBreadCrumbs = true
+  ShowCodeCopyButtons = true
+  ShowRssButtonInSectionTermList = true
+  ShowAllPagesInArchive = true
+  ShowPageNums = true
+  ShowToc = true
+  # comments = false
+  images = ["images/papermod-cover.png"]
+
+  [params.homeInfoParams]
+    Title = "PaperMod's Demo"
+    Content = """
+      👋 Welcome to demo page of Hugo's theme PaperMod!
+
+      - **PaperMod**  is designed to be clean and simple but fast and responsive theme with useful feature-set that enhances UX.
+
+      - Feel free to show your support by giving us a star 🌟 on GitHub and sharing with your friends and social media .
+
+      - PaperMod is based on theme [Paper](https://github.com/nanxiaobei/hugo-paper/tree/4330c8b12aa48bfdecbcad6ad66145f679a430b3).
+      """
+
+    # Social icons
+    [[params.homeInfoParams.socialIcons]]
+      name = "github"
+      url = "https://github.com/milavdabgar"
+    [[params.homeInfoParams.socialIcons]]
+      name = "linkedin"
+      url = "https://www.linkedin.com/in/milavdabgar"
+    [[params.homeInfoParams.socialIcons]]
+      name = "email"
+      url = "mailto:milav@milav.in"
+
+  [params.editPost]
+    URL = "https://github.com/adityatelange/hugo-PaperMod/tree/exampleSite/content"
+    Text = "Suggest Changes" # edit text
+    appendFilePath = true # to append file path to Edit link
+
+  # [params.label]
+  # iconSVG = '<svg xmlns="http://www.w3.org/2000/svg" height="25" viewBox="0 -960 960 960" fill="currentColor"><path d="M320-240h320v-80H320v80Zm0-160h320v-80H320v80ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z"/></svg>'
+  # text = "Home"
+  # icon = "icon.png"
+  # iconHeight = 35
+
+  # [params.analytics]
+  #     [params.analytics.google]
+  #         SiteVerificationTag = "XYZabc"
+
+  [params.assets]
+    disableHLJS = true
+  #     favicon = "<link / abs url>"
+  #     favicon16x16 = "<link / abs url>"
+  #     favicon32x32 = "<link / abs url>"
+  #     apple_touch_icon = "<link / abs url>"
+  #     safari_pinned_tab = "<link / abs url>"
+
+  # [params.cover]
+  #     hidden = true # hide everywhere but not in structured data
+  #     hiddenInList = true # hide on list pages and home
+  #     hiddenInSingle = true # hide on single page
+
+  # [params.fuseOpts]
+  #     isCaseSensitive = false
+  #     shouldSort = true
+  #     location = 0
+  #     distance = 1000
+  #     threshold = 0.4
+  #     minMatchCharLength = 0
+  #     keys = ["title", "permalink", "summary", "content"]
+
+[languages]
+  [languages.en]
+    languageName = "English"
+    weight = 1
+    [languages.en.taxonomies]
+      category = "categories"
+      tag = "tags"
+      series = "series"
+    
+    [[languages.en.menu.main]]
+      name = "Blog"
+      url = "/blog/"
+      weight = 20
+    [[languages.en.menu.main]]
+      name = "Projects"
+      url = "/projects/"
+      weight = 30
+    [[languages.en.menu.main]]
+      name = "Resources"
+      url = "/resources/"
+      weight = 40
+    [[languages.en.menu.main]]
+      name = "Study Materials"
+      url = "/resources/study-materials/"
+      parent = "Resources"
+      weight = 50
+    [[languages.en.menu.main]]
+      name = "Downloads"
+      url = "/resources/downloads/"
+      parent = "Resources"
+      weight = 70
+    [[languages.en.menu.main]]
+      name = "Useful Links"
+      url = "/resources/links/"
+      parent = "Resources"
+      weight = 80
+
+  [languages.gu]
+    languageName = "ગુજરાતી"
+    weight = 2
+    title = "મિલવ"
+    [languages.gu.taxonomies]
+      category = "categories"
+      tag = "tags"
+      series = "series"
+    
+    [[languages.gu.menu.main]]
+      name = "Blog"
+      url = "/blog/"
+      weight = 20
+    [[languages.gu.menu.main]]
+      name = "Projects"
+      url = "/projects/"
+      weight = 30
+    [[languages.gu.menu.main]]
+      name = "Resources"
+      url = "/resources/"
+      weight = 40
+    [[languages.gu.menu.main]]
+      name = "Study Materials"
+      url = "/resources/study-materials/"
+      parent = "Resources"
+      weight = 50
+    [[languages.gu.menu.main]]
+      name = "Downloads"
+      url = "/resources/downloads/"
+      parent = "Resources"
+      weight = 70
+    [[languages.gu.menu.main]]
+      name = "Useful Links"
+      url = "/resources/links/"
+      parent = "Resources"
+      weight = 80
+      
+    [languages.gu.params]
+      [languages.gu.params.profileMode]
+        enabled = true
+        title = "મિલવ ડબગર"
+        subtitle = "☄️ ઝડપી | ☁️ સરળ | 🌙 સુંદર | 📱 રિસ્પોન્સિવ"
+        imageUrl = "https://raw.githubusercontent.com/googlefonts/noto-emoji/master/svg/emoji_u1f9d1_1f3fb_200d_1f4bb.svg"
+        imageTitle = "મિલવ ડબગર"
+        
+        [[languages.gu.params.profileMode.buttons]]
+          name = "બ્લોગ"
+          url = "posts"
+        [[languages.gu.params.profileMode.buttons]]
+          name = "આર્કાઇવ"
+          url = "archives"
+
+      [languages.gu.params.editPost]
+        Text = "ફેરફાર સૂચવો"
+      
+      ReadMore = "વધુ વાંચો"
+      PostNavigation = "પોસ્ટ નેવિગેશન"
+      PrevPage = "પાછળ"
+      NextPage = "આગળ"
+      ShowReadingTime = true
+      DateFormat = "2006, January 2"
+      ShowShareButtons = true
+      ShareButtons = ["facebook", "twitter", "telegram", "whatsapp"]
+      ShowBreadCrumbs = true
+      ShowPostNavLinks = true
+      ShowCodeCopyButtons = true
+      searchText = "અહીં શોધો..."
+      poweredBy = "દ્વારા સંચાલિત"
+      lastMod = "છેલ્લે સુધારાયું"
+      readTime = "વાંચવાનો સમય"
+      words = "શબ્દો"
+      draft = "ડ્રાફ્ટ"
+      toc = "અનુક્રમણિકા"
+
+# [privacy]
+#   [privacy.vimeo]
+#     disabled = false
+#     simple = true
+
+#   [privacy.twitter]
+#     disabled = false
+#     enableDNT = true
+#     simple = true
+
+#   [privacy.instagram]
+#     disabled = false
+#     simple = true
+
+#   [privacy.youtube]
+#     disabled = false
+#     privacyEnhanced = true

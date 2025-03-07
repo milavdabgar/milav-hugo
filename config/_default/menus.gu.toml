@@ -1,0 +1,90 @@
+# -- Main Menu --
+# The main menu is displayed in the header at the top of the page.
+
+[[main]]
+  name = "બ્લોગ"
+  pageRef = "blog"
+  weight = 10
+
+[[main]]
+  name = "પ્રોજેક્ટ્સ"
+  pageRef = "projects"
+  weight = 15
+
+[[main]]
+  name = "રિસોર્સિસ"
+  pageRef = "resources"
+  weight = 20
+
+[[main]]
+  name = "અભ્યાસ સામગ્રી"
+  pageRef = "resources/study-materials"
+  parent = "રિસોર્સિસ"
+  weight = 21
+
+[[main]]
+  name = "ડાઉનલોડ્સ"
+  pageRef = "resources/downloads"
+  parent = "રિસોર્સિસ"
+  weight = 22
+
+[[main]]
+  name = "ઉપયોગી લિંક્સ"
+  pageRef = "resources/links"
+  parent = "રિસોર્સિસ"
+  weight = 23
+
+[[main]]
+  name = "મીડિયા"
+  pageRef = "media"
+  weight = 30
+
+[[main]]
+  name = "સંગીત"
+  pageRef = "media/music"
+  parent = "મીડિયા"
+  weight = 31
+
+[[main]]
+  name = "વિડિઓ"
+  pageRef = "media/videos"
+  parent = "મીડિયા"
+  weight = 32
+
+[[main]]
+  name = "સુવિચારો"
+  pageRef = "media/quotes"
+  parent = "મીડિયા"
+  weight = 33
+
+[[main]]
+  name = "પોર્ટફોલિયો"
+  pageRef = "portfolio"
+  weight = 40
+
+[[main]]
+  name = "અબાઉટ"
+  pageRef = "about"
+  weight = 50
+
+[[main]]
+  identifier = "github"
+  pre = "github"
+  url = "https://github.com/milavdabgar"
+  weight = 60
+
+# -- Footer Menu --
+[[footer]]
+  name = "લેખકો"
+  pageRef = "authors"
+  weight = 10
+
+[[footer]]
+  name = "કેટેગરીઝ"
+  pageRef = "categories"
+  weight = 20
+
+[[footer]]
+  name = "ટૅગ્સ"
+  pageRef = "tags"
+  weight = 30
