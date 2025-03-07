@@ -147,39 +147,27 @@ languages:
       series: series
     menu:
       main:
-        - name: Posts
-          url: /posts/
+        - name: Blog
+          url: /blog/
           weight: 20
-        - name: About
-          url: /about/
+        - name: Projects
+          url: /projects/
           weight: 30
-        - name: Portfolio
-          url: /portfolio/
+        - name: Resources
+          url: /resources/
           weight: 40
-        - name: Music
-          url: /music/
+        - name: Study Materials
+          url: /resources/study-materials/
+          parent: "Resources"
           weight: 50
         - name: Downloads
-          url: /downloads/
+          url: /resources/downloads/
+          parent: "Resources"
           weight: 70
-        - name: Links
-          url: /weblinks/
-          weight: 80
-        - name: Quotes
-          url: /quotes/
-          weight: 90
-        - name: Search
-          url: search/
-          weight: 94
-        - name: Archive
-          url: archives
-          weight: 92
-        - name: Tags
-          url: tags/
-          weight: 96
-        - name: Categories
-          url: /categories/
-          weight: 98             
+        - name: Useful Links
+          url: /resources/links/
+          parent: Resources
+          weight: 80         
 
   gu:
     languageName: "ગુજરાતી"
@@ -191,39 +179,27 @@ languages:
       series: series
     menu:
       main:
-        - name: પોસ્ટ્સ
-          url: /posts/
-          weight: 21
-        - name: શ્રેણીઓ
-          url: /categories/
-          weight: 22
-        - name: ટૅગ્સ
-          url: /tags/
-          weight: 23
-        - name: આર્કાઇવ
-          url: /archives/
-          weight: 24
-        - name: વિશે
-          url: /about/
+        - name: Blog
+          url: /blog/
+          weight: 20
+        - name: Projects
+          url: /projects/
           weight: 30
-        - name: પોર્ટફોલિયો
-          url: /portfolio/
+        - name: Resources
+          url: /resources/
           weight: 40
-        - name: સંગીત
-          url: /music/
+        - name: Study Materials
+          url: /resources/study-materials/
+          parent: "Resources"
           weight: 50
-        - name: ડાઉનલોડ્સ
-          url: /downloads/
+        - name: Downloads
+          url: /resources/downloads/
+          parent: "Resources"
           weight: 70
-        - name: લિંક્સ
-          url: /weblinks/
-          weight: 80
-        - name: અવતરણો
-          url: /quotes/
-          weight: 90
-        - name: શોધો
-          url: search/
-          weight: 94
+        - name: Useful Links
+          url: /resources/links/
+          parent: Resources
+          weight: 80   
     params:
       profileMode:
         enabled: true
