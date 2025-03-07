@@ -1,4 +1,4 @@
-theme = "hugo-PaperMod"
+theme = "PaperMod"
 baseURL = 'https://milav.in/'
 defaultContentLanguage = "en"
 
