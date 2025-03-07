@@ -18,7 +18,7 @@ title = "મિલવ"
     
     [[params.profileMode.buttons]]
       name = "બ્લોગ"
-      url = "posts"
+      url = "blog"
     [[params.profileMode.buttons]]
       name = "આર્કાઇવ"
       url = "archives"
